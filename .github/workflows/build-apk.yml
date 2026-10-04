@@ -1,0 +1,59 @@
+name: Build Android APK
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20   # safety net: if a step ever hangs (e.g. an interactive
+                           # prompt with no stdin in CI), the job fails fast
+                           # instead of running for hours.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+
+      # ubuntu-latest runners already ship an Android SDK (ANDROID_HOME is
+      # preset) — we deliberately do NOT use android-actions/setup-android
+      # here, since it tries to install a legacy "tools" package that no
+      # longer exists and fails the build.
+      - name: Accept Android SDK licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses >/dev/null || true
+
+      # IMPORTANT: this needs `yes |` too — without it, if any of these
+      # packages still needed a license confirmation, sdkmanager would sit
+      # waiting on stdin with nothing feeding it, hanging indefinitely
+      # instead of failing. That's what caused the previous run to run for
+      # 2+ hours instead of finishing in ~1-2 minutes like a normal build.
+      - name: Install required SDK platform & build-tools
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "platform-tools"
+
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VideoEditor-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
