@@ -1,0 +1,28 @@
+<resources>
+
+    <style name="ToolRailButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ToolRailIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ToolRailLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#CCCCCC</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/glSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnImportVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Import Green-Screen Video" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Pick a video to key out its background" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Threshold"
+        android:layout_marginStart="8dp" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/thresholdSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="1"
+        android:value="0.4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edge Smoothing"
+        android:layout_marginStart="8dp" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/smoothingSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="0.5"
+        android:value="0.1" />
+
+</LinearLayout>
